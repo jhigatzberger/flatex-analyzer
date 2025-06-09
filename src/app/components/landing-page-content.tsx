@@ -7,7 +7,7 @@ import StarIcon from "@mui/icons-material/Star";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ReactPlayer from "react-player";
 
-const REPO = "vercel/next-forge";
+const REPO = "jhigatzberger/flatex-analyzer";
 
 export default function LandingPageContent() {
   const stars = useGitHubStars(REPO);

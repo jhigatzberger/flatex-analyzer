@@ -21,7 +21,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const showFooter = process.env.NEXT_PUBLIC_SHOW_FOOTER === "true";
   return (
     <html lang="en" className={roboto.variable}>
       <link
@@ -32,7 +31,7 @@ export default function RootLayout({
         <div className="min-h-svh flex flex-col justify-between">
           <ClientWrapper>
             <Header />{children}
-            {showFooter && <Footer />}
+            <Footer />
           </ClientWrapper>
         </div>
       </body>

@@ -1,27 +1,32 @@
 # Flatex Portfolio Analyzer
 
-Dies ist ein Open-Source-Analyzer für dein Flatex-Depot.
+This is an open source tool for analyzing your Flatex portfolio history.
 
-## 🐳 Selbst hosten
+## Self-Hosting
 
-Du kannst das Projekt ganz einfach selbst hosten, indem du die `docker-compose.yaml` ausführst:
+You can easily run the project locally using Docker:
 
-    docker-compose up
+```bash
+docker-compose up
+```
 
-## ⚙️ Konfiguration
+## Configuration
 
-Wenn du eigene Einstellungen vornehmen möchtest, kannst du die Datei `.env.example` kopieren und anpassen:
+To customize settings, copy the example environment file and adjust it as needed:
 
-    cp .env.example .env
+```bash
+cp .env.example .env
+```
 
-## 💡 Mitmachen
+## Contributing
 
-Ich freue mich über jeden Beitrag! Wenn du Ideen hast, Fehler findest oder einfach Feedback geben möchtest – gerne her damit!
+Contributions are very welcome! If you have ideas, find bugs, or want to give feedback — feel free to open an issue or submit a pull request.
 
-## 📜 Lizenz / Nutzung
+## License & Usage
 
-Bitte beachte: Dieses Tool ist **nicht für die kommerzielle Nutzung** gedacht. Du darfst es **nur privat** verwenden.
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
 
----
+You are free to use, modify, and share this software under the terms of the license.  
+**Commercial use is not permitted unless your application is also licensed under AGPLv3 and provides access to its source code.**
 
-Bei Fragen oder Problemen gerne melden – ich bin dankbar für jedes Feedback und jede Fehlermeldung!
+See the [LICENSE](./LICENSE) file for more details.

@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import LandingPageContent from "./components/landing-page-content";
 
-function getShowLandingPage() { return process.env.SHOW_LANDING_PAGE === "true"; }
+const SHOW_LANDING_PAGE = process.env.SHOW_LANDING_PAGE === "true";
 
 export default function LandingPage() {
-    if (!getShowLandingPage()) redirect("/dashboard");
+    if (!SHOW_LANDING_PAGE) redirect("/dashboard");
 
     return <LandingPageContent />
 };

@@ -16,9 +16,7 @@ export const metadata: Metadata = {
   title: "Flatex Portfolio Analyzer",
 };
 
-function getShowFooter() {
-  return process.env.SHOW_FOOTER === "true";
-}
+const SHOW_FOOTER = process.env.SHOW_FOOTER === "true"
 
 export default function RootLayout({
   children,
@@ -35,7 +33,7 @@ export default function RootLayout({
         <div className="min-h-svh flex flex-col justify-between">
           <ClientWrapper>
             <Header />{children}
-            {getShowFooter() && <Footer />}
+            {SHOW_FOOTER && <Footer />}
           </ClientWrapper>
         </div>
       </body>

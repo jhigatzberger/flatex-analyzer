@@ -16,13 +16,12 @@ export const metadata: Metadata = {
   title: "Flatex Portfolio Analyzer",
 };
 
-const SHOW_FOOTER = process.env.SHOW_FOOTER === "true"
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const showFooter = process.env.NEXT_PUBLIC_SHOW_FOOTER === "true";
   return (
     <html lang="en" className={roboto.variable}>
       <link
@@ -33,7 +32,7 @@ export default function RootLayout({
         <div className="min-h-svh flex flex-col justify-between">
           <ClientWrapper>
             <Header />{children}
-            {SHOW_FOOTER && <Footer />}
+            {showFooter && <Footer />}
           </ClientWrapper>
         </div>
       </body>

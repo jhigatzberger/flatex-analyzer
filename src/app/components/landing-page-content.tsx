@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import FAQ from "./faq";
+import { ArrowForward, ArrowRight, ArrowRightAlt } from "@mui/icons-material";
 
 
 export default function LandingPageContent() {
@@ -31,14 +32,23 @@ export default function LandingPageContent() {
               </Typography>
               <Stack direction={"row"} spacing={2} mt={2}>
                 <Button
-                  variant="contained"
+                  variant="outlined"
                   size="large"
                   color="secondary"
                   href="/dashboard"
                 >
-                  Dashboard
+                  Ausprobieren
                 </Button>
-                
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="secondary"
+                  href="/dashboard"
+                  endIcon={<ArrowForward fontSize="small" />}
+                >
+                  Loslegen
+                </Button>
+
               </Stack>
             </Stack>
           </Grid>

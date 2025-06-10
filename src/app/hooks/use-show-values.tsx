@@ -8,7 +8,7 @@ type ShowValuesContextType = {
 const ShowValuesContext = createContext<ShowValuesContextType | undefined>(undefined);
 
 export const ShowValuesProvider = ({ children }: { children: ReactNode }) => {
-    const [showValues, setShowValues] = useState<boolean>(false);
+    const [showValues, setShowValues] = useState<boolean>(true);
 
     const contextValue = {
         showValues,

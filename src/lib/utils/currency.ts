@@ -18,6 +18,7 @@ export function getEuroPrice(
 
   const conversionRate = currencies[normalizedCurrency];
   if (!conversionRate) {
+    console.error(currencies);
     throw new Error(`Conversion rate for ${currency} not found`);
   }
 

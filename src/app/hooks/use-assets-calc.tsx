@@ -1,10 +1,9 @@
-import { FullTickerData } from "../../lib/finance/schemas";
+import dayjs from "dayjs";
 import { getEuroPrice } from "../../lib/utils/currency";
 import { Asset } from "../types/asset";
 import { DepotItem } from "../types/depot-item";
 import { useConversionRates } from "./use-conversion-rates";
 import {
-  DepotItemDetails,
   mergeDepotItemDetails,
   useDepotItemDetails,
 } from "./use-depot-item-details";
@@ -122,8 +121,15 @@ export function useAssetsCalc(depotItems: DepotItem[]) {
     return firstTxDate < earliest ? firstTxDate : earliest;
   }, new Date());
 
-  const { data: conversionRates, isLoading: conversionRatesIsLoading } =
-    useConversionRates();
+  const todayString = dayjs().format("YYYY-MM-DD");
+  const firstInvestmentDateString =
+    dayjs(firstInvestmentDate).format("YYYY-MM-DD");
+
+  const {
+    data: conversionRates,
+    ratesMap,
+    isLoading: conversionRatesIsLoading,
+  } = useConversionRates(firstInvestmentDateString, todayString);
 
   const preloadedAssets: PreloadedAsset[] = depotItems.map((item) => ({
     ...item,
@@ -143,7 +149,7 @@ export function useAssetsCalc(depotItems: DepotItem[]) {
     let currentEuroPrice = priceDataAvailable
       ? getEuroPrice(
           item?.tickerData?.regularMarketPrice,
-          conversionRates,
+          getClosestConversionRates(todayString, conversionRates.rates),
           item.tickerData.currency
         )
       : null;
@@ -165,32 +171,58 @@ export function useAssetsCalc(depotItems: DepotItem[]) {
 
   const { data: priceHistory, isLoading: priceHistoryIsLoading } =
     usePriceHistory({
-      end: new Date().toISOString().split("T")[0],
-      start: firstInvestmentDate.toISOString().split("T")[0],
+      end: todayString,
+      start: firstInvestmentDateString,
       tickers: allTickers,
     });
+
+  function getClosestConversionRates(
+    date: string,
+    conversionRates: Record<string, Record<string, number>>
+  ): Record<string, number> | null {
+    const target = dayjs(date);
+
+    const sortedDates = Object.keys(conversionRates)
+      .filter((d) => dayjs(d).isBefore(target) || dayjs(d).isSame(target))
+      .sort((a, b) => dayjs(b).diff(dayjs(a)));
+
+    if (sortedDates.length === 0) {
+      return null; // No rate available before or on this date
+    }
+
+    const closestDate = sortedDates[0];
+    return conversionRates[closestDate];
+  }
 
   if (!priceHistoryIsLoading && priceHistory) {
     assets.forEach((asset) => {
       const ticker = asset.tickerData?.symbol;
       if (ticker && priceHistory.prices[ticker]) {
-        asset.priceHistory = priceHistory.prices[ticker].map(
-          (price, index) => ({
+        let lastFoundConversionRates: Record<string, number> | null =
+          getClosestConversionRates(
+            priceHistory.dates[0],
+            conversionRates.rates
+          );
+        asset.priceHistory = priceHistory.prices[ticker].map((price, index) => {
+          if (ratesMap.has(priceHistory.dates[index])) {
+            lastFoundConversionRates = ratesMap.get(priceHistory.dates[index]);
+          }
+          return {
             date: priceHistory.dates[index],
             price:
               price === 0 && index > 0
                 ? getEuroPrice(
                     priceHistory.prices[ticker][index - 1],
-                    conversionRates,
+                    lastFoundConversionRates,
                     asset.tickerData?.currency
                   )
                 : getEuroPrice(
                     price,
-                    conversionRates,
+                    lastFoundConversionRates,
                     asset.tickerData?.currency
                   ),
-          })
-        );
+          };
+        });
       } else {
         asset.priceHistory = [];
       }

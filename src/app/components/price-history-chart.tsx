@@ -38,15 +38,12 @@ export default function PriceHistoryChart({
   const dates = priceHistory.map((p) => new Date(p.date));
   const prices = priceHistory.map((p) => (p.price === 0 ? null : p.price));
 
-  // Get unique event types dynamically
   const uniqueEventTypes = Array.from(new Set(keyEvents.map((e) => e.type)));
 
-  // Create a map of date strings to index for fast lookup
   const dateIndexMap = new Map(
     dates.map((d, i) => [d.toISOString().split("T")[0], i])
   );
 
-  // Build aligned data series for each event type
   const eventSeries = uniqueEventTypes.map((type) => {
     const data = Array(dates.length).fill(null);
 
@@ -56,7 +53,10 @@ export default function PriceHistoryChart({
         const isoDate = e.date.toISOString().split("T")[0];
         const index = dateIndexMap.get(isoDate);
         if (index !== undefined) {
-          data[index] = e.price ? e.price : prices[index]; // Use price if available, otherwise null
+          data[index] = e.price ? e.price : prices[index];
+        } else {
+          // TODO: handle missing dates
+          console.warn(`Date ${isoDate} not found in price history.`);
         }
       });
 
@@ -64,7 +64,7 @@ export default function PriceHistoryChart({
       label: type,
       data,
       showMark: true,
-      color: colors?.[type] || "#ff9800", // Default color if not provided
+      color: colors?.[type] || "#ff9800",
     };
   });
 

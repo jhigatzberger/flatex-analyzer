@@ -96,19 +96,19 @@ function AssetHistoryItem({ item }: { item: Asset }) {
   };
 
   const investmentEvents = item.details.investment.transactions.map((t) => ({
-    date: new Date(t.date),
+    date: t.date,
     price: t.rate,
     type: "Buy",
   }));
 
   const realizedEvents = item.details.realized.transactions.map((t) => ({
-    date: new Date(t.date),
+    date: t.date,
     price: t.rate,
     type: "Sell",
   }));
 
   const dividendEvents = item.details.dividends.dividends.map((d) => ({
-    date: new Date(d.date),
+    date: d.date,
     type: "Dividend",
   }));
 

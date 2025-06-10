@@ -34,8 +34,9 @@ async function fetchFromFawazahmed0() {
     throw new Error("Failed to fetch exchange rate data from Fawaz Ahmed");
   }
   const data = await res.json();
+  const rawConversionRates = data["eur"];
   const conversionRates = Object.fromEntries(
-    Object.entries(data).map(([key, value]) => [
+    Object.entries(rawConversionRates).map(([key, value]) => [
       key.toUpperCase(),
       value as number,
     ])

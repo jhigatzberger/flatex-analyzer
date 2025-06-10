@@ -14,7 +14,7 @@ const ValueTypography: React.FC<ValueTypographyProps> = ({
     const { showValues } = useShowValues();
 
     return (
-        <Typography {...typographyProps}>
+        <Typography component={"span"} {...typographyProps}>
             {showValues ? children : placeholder}
         </Typography>
     );

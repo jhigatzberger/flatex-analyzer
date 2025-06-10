@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { ParsedAccountTransaction } from "../../app/types/account-transaction";
-import { Asset } from "../../app/types/asset";
+import { ParsedAccountTransaction } from "../app/types/account-transaction";
+import { Asset } from "../app/types/asset";
 
 export function getInitialInvestment(
   accountTransactions: ParsedAccountTransaction[]

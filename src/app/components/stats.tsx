@@ -24,7 +24,7 @@ import {
   getAccumulatedCashFlows,
   getAccumulatedDepotValue,
   getAccumulatedCashPosition,
-} from "../../lib/utils/analyse";
+} from "../../lib/analyse";
 import { DepotChart } from "./depot-chart";
 import { PieChartSwitcher } from "./pie-chart-switcher";
 import { LineChart } from "@mui/x-charts";

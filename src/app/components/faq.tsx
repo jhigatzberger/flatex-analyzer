@@ -53,6 +53,9 @@ export default function FAQ() {
               Wähle den Zeitraum aus, für den du die Daten exportieren möchtest.
             </FAQListItem>
             <FAQListItem>
+              Vergiss nicht auf <i>"Übernehmen"</i> zu klicken.
+            </FAQListItem>
+            <FAQListItem>
               Klicke auf die drei Punkte auf der rechten Seite und wähle{" "}
               <i>"Export CSV"</i>.
             </FAQListItem>

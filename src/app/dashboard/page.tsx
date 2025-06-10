@@ -11,11 +11,11 @@ import {
   mergeDepotTransactions,
   ParsedDepotTransaction,
 } from "../types/depot-transaction";
-import { Box, Chip, Snackbar, Switch, Typography } from "@mui/material";
+import { Chip, Snackbar } from "@mui/material";
 import { Stats } from "../components/stats";
 import { DepotProvider } from "../hooks/use-depot"
-import { ShowValuesProvider } from "../hooks/use-show-values";
 import CsvDropzoneUploader from "../components/csv-upload";
+import { ShowValuesToggle } from "../components/show-values-toggle";
 
 export default function App() {
   const [depotTransactions, setDepotTransactions] = useState<
@@ -24,8 +24,6 @@ export default function App() {
   const [accountTransactions, setAccountTransactions] = useState<
     ParsedAccountTransaction[][]
   >([]);
-
-  const [showValues, setShowValues] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   function handleParsedData(data: unknown[]) {
@@ -65,23 +63,15 @@ export default function App() {
             onDelete={accountTransactions.length > 0 ? () => setAccountTransactions([]) : undefined}
           />
         </div>
-        <Box display="flex" alignItems="center" gap={1}>
-          <Typography variant="body2" color="text.primary">
-            Beträge anzeigen
-          </Typography>
-          <Switch value={showValues} defaultChecked onChange={e => setShowValues(e.target.checked)} />
-        </Box>
+        <ShowValuesToggle />
         <CsvDropzoneUploader onParsed={handleParsedData} />
       </div>
-
       {depotTransactions.length > 0 && accountTransactions.length > 0 && (
         <DepotProvider
           accountTransactions={mergeAccountTransactions(accountTransactions)}
           depotTransactions={mergeDepotTransactions(depotTransactions)}
         >
-          <ShowValuesProvider showValues={showValues}>
-            <Stats />
-          </ShowValuesProvider>
+          <Stats />
         </DepotProvider>
       )}
       <Snackbar

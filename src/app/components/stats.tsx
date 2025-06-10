@@ -14,7 +14,6 @@ import { useDepot } from "../hooks/use-depot";
 import {
   ParsedAccountTransaction,
 } from "../types/account-transaction";
-import dayjs from "dayjs";
 import {
   getInitialInvestment,
   getCashPosition,
@@ -30,13 +29,7 @@ import { LineChart } from "@mui/x-charts";
 import { useShowValues } from "../hooks/use-show-values";
 import { Asset } from "../types/asset";
 
-function getYearDifference(startDate: Date, endDate: Date) {
-  const start = dayjs(startDate);
-  const end = dayjs(endDate);
-  return (end.diff(start, "months") / 12).toFixed(1);
-}
-
-export default function PortfolioOverview({
+function PortfolioOverview({
   accountTransactions,
   sortedItems,
   progress,

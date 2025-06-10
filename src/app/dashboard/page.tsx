@@ -11,10 +11,9 @@ import {
   mergeDepotTransactions,
   ParsedDepotTransaction,
 } from "../types/depot-transaction";
-import { Box, Chip, Snackbar, Switch, Typography } from "@mui/material";
+import { Chip, Snackbar } from "@mui/material";
 import { Stats } from "../components/stats";
 import { DepotProvider } from "../hooks/use-depot"
-import { ShowValuesProvider } from "../hooks/use-show-values";
 import CsvDropzoneUploader from "../components/csv-upload";
 import { ShowValuesToggle } from "../components/show-values-toggle";
 
@@ -67,7 +66,6 @@ export default function App() {
         <ShowValuesToggle />
         <CsvDropzoneUploader onParsed={handleParsedData} />
       </div>
-
       {depotTransactions.length > 0 && accountTransactions.length > 0 && (
         <DepotProvider
           accountTransactions={mergeAccountTransactions(accountTransactions)}

@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { cache } from "../../../lib/cache";
 
 const BASE_CURRENCY = "EUR";
-const API_URL = process.env.FRANKFURTER_API_URL!;
+const API_URL =
+  process.env.FRANKFURTER_API_URL || "https://api.frankfurter.app";
 
 export async function GET(req: NextRequest) {
   console.log("Frankfurter exchange rate API called");
@@ -12,7 +13,10 @@ export async function GET(req: NextRequest) {
   const end = searchParams.get("end");
 
   if (!start || !end) {
-    return NextResponse.json({ error: "Missing 'start' or 'end' query parameter." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing 'start' or 'end' query parameter." },
+      { status: 400 }
+    );
   }
 
   const cacheKey = `exchangeRates:${start}:${end}`;
@@ -26,7 +30,9 @@ export async function GET(req: NextRequest) {
     const res = await fetch(url);
 
     if (!res.ok) {
-      throw new Error(`Failed to fetch exchange rate data: ${res.statusText} (${url})`);
+      throw new Error(
+        `Failed to fetch exchange rate data: ${res.statusText} (${url})`
+      );
     }
 
     const data = await res.json();
@@ -35,6 +41,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching exchange rates:", error);
-    return NextResponse.json({ error: "Internal server error." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error." },
+      { status: 500 }
+    );
   }
 }

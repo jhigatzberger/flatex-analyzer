@@ -35,7 +35,7 @@ export default function LandingPageContent() {
                   variant="outlined"
                   size="large"
                   color="secondary"
-                  href="/dashboard"
+                  href="/demo"
                 >
                   Ausprobieren
                 </Button>

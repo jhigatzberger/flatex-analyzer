@@ -1,0 +1,26 @@
+[
+  {
+    "Buchtag": "01.10.2023",
+    "Valuta": "01.10.2023",
+    "BIC / BLZ": "",
+    "IBAN / Kontonummer": "",
+    "Buchungsinformationen": "",
+    "TA-Nr.": "1",
+    "Betrag": "1500,00",
+    "": "EUR",
+    "Auftraggeberkonto": "",
+    "Konto": ""
+  },
+  {
+    "Buchtag": "01.10.2023",
+    "Valuta": "01.10.2023",
+    "BIC / BLZ": "",
+    "IBAN / Kontonummer": "",
+    "Buchungsinformationen": "",
+    "TA-Nr.": "2",
+    "Betrag": "750,00",
+    "": "EUR",
+    "Auftraggeberkonto": "",
+    "Konto": ""
+  }
+]

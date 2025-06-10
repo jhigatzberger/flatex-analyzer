@@ -2,13 +2,21 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type ShowValuesContextType = {
     showValues: boolean;
+    setShowValues: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const ShowValuesContext = createContext<ShowValuesContextType | undefined>(undefined);
 
-export const ShowValuesProvider = ({ children, showValues }: { children: ReactNode, showValues: boolean }) => {
+export const ShowValuesProvider = ({ children }: { children: ReactNode }) => {
+    const [showValues, setShowValues] = useState<boolean>(false);
+
+    const contextValue = {
+        showValues,
+        setShowValues,
+    };
+
     return (
-        <ShowValuesContext.Provider value={{ showValues }}>
+        <ShowValuesContext.Provider value={contextValue}>
             {children}
         </ShowValuesContext.Provider>
     );

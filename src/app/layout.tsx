@@ -13,7 +13,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Flatex Portfolio Analyzer",
+  title: "Flatex Analyzer",
 };
 
 export default function RootLayout({

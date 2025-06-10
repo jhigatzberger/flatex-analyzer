@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Box, Button, Container, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import Link from 'next/link';
 
 export function Footer() {

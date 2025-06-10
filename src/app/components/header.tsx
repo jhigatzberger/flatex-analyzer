@@ -37,7 +37,7 @@ export function Header() {
             <Link href="/" style={{ textDecoration: 'none', color: theme.palette.text.primary, display: 'flex', alignItems: 'center' }}>
                 <AnalyticsIcon fontSize="large" color='secondary' />
                 <Typography variant="h6" color="text.primary">
-                    Flatex Portfolio Analyzer
+                    Flatex Analyzer
                 </Typography>
             </Link>
 

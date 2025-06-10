@@ -24,3 +24,9 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Ensure the image element has position: relative */
+.blur-gradient-bottom {
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 80%);
+  mask-image: linear-gradient(to bottom, black 40%, transparent 80%);
+}

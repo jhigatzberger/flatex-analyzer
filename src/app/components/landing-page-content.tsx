@@ -53,18 +53,16 @@ export default function LandingPageContent() {
             </Stack>
           </Grid>
           <Grid size={{ lg: 6, xs: 12 }} >
-            <div>
-              <Image
+            <Image
                 src={`/dashboard-screenshot_${theme.palette.mode}.webp`}
                 width={2746}
                 height={1454}
                 style={{
                   borderColor: theme.palette.secondary.main
                 }}
-                className="border lg:scale-125 blur-gradient-bottom drop rounded-lg overflow-hidden rotate-z-12 rotate-x-[-25deg] rotate-y-[28deg]"
+                className="lg:scale-125 lg:mt-6 border blur-gradient-bottom drop rounded-lg overflow-hidden rotate-z-12 rotate-x-[-25deg] rotate-y-[28deg]"
                 alt="Screenshot des Dashboards"
               />
-            </div>
           </Grid>
         </Grid>
         <FAQ />

@@ -61,20 +61,19 @@ export default function CsvDropzoneUploader({
         padding: 4,
         textAlign: "center",
         cursor: "pointer",
-        backdropFilter: "blur(20px)",
         transition: "all 0.3s ease",
         width: "100%",
+        backgroundColor: alpha(palette.primary.main, 0.1), 
         "&:hover": {
-          backdropFilter: "blur(10px)", // less blur
-          borderColor: palette.primary.dark, // darker border
+          backgroundColor: alpha(palette.primary.main, 0.2),
         },
       }}
       borderRadius={2}
-      border={`${palette.primary.light} 1px dashed`}
+      border={`${palette.primary.main} 1px dashed`}
     >
       <input {...getInputProps()} />
-      <FileUpload sx={{ fontSize: 40, color: "text.primary" }} />
-      <Typography variant="body2" color="text.primary" mt={2}>
+      <FileUpload color="primary" sx={{ fontSize: 40 }} />
+      <Typography variant="body2" color="primary" mt={2}>
         {isDragActive
           ? "CSVs ablegen..."
           : "CSVs per Drag & Drop oder Klick laden"}

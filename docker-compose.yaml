@@ -34,6 +34,8 @@ services:
       DATABASE_URL: postgres://postgres:postgres@pg-data:5432/mydb
     volumes:
       - ./:/app
+    env_file:
+      - .env
   dashboard:
     build:
       context: .

@@ -212,7 +212,6 @@ export function Stats() {
   const { assets, progress, accountTransactions } = useDepot();
 
   const sortedItems = [...assets]
-    .filter((d) => d.details.quantity > 0.01)
     .sort((a, b) => {
       const valueA = a.currentPositionValue || 0;
       const valueB = b.currentPositionValue || 0;

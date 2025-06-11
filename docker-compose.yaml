@@ -1,19 +1,6 @@
 version: '3.9'
 
 services:
-  pg-data:
-    image: postgres:15
-    container_name: pg-data
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
   yf-wrapper:
     build:
       context: https://github.com/jhigatzberger/yf-rest_wrapper.git
@@ -22,20 +9,6 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
-  init:
-    image: node:18-alpine
-    container_name: init
-    working_dir: /app
-    command: >
-      sh -c "npm install --no-save drizzle-kit && npx drizzle-kit push --config=drizzle.config.ts"
-    depends_on:
-      - pg-data
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@pg-data:5432/mydb
-    volumes:
-      - ./:/app
-    env_file:
-      - .env
   dashboard:
     build:
       context: .
@@ -45,12 +18,5 @@ services:
       - "3000:3000"
     env_file:
       - .env
-    environment:
-      DATABASE_URL: postgres://postgres:postgres@pg-data:5432/mydb
-      YAHOO_FINANCE_WRAPPER_URL: http://yf-wrapper:5000
     depends_on:
-      - pg-data
       - yf-wrapper
-      - init
-volumes:
-  pgdata:

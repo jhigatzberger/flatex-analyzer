@@ -3,9 +3,9 @@ import { cache } from "../../../lib/cache";
 import { getEnv } from "../../../lib/env";
 
 const BASE_CURRENCY = "EUR";
-const API_URL = getEnv().FRANKFURTER_API_URL;
 
 export async function GET(req: NextRequest) {
+  const API_URL = getEnv().FRANKFURTER_API_URL;
   console.log("Frankfurter exchange rate API called");
 
   const { searchParams } = new URL(req.url);

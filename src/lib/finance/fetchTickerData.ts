@@ -1,8 +1,8 @@
-import { env } from "../env";
+import { getEnv } from "../env";
 import { FullTickerData } from "./schemas";
 
 export async function fetchTickerData(ticker: string): Promise<FullTickerData> {
-  const url = `${env.YAHOO_FINANCE_WRAPPER_URL}/stock/${ticker}`;
+  const url = `${getEnv().YAHOO_FINANCE_WRAPPER_URL}/stock/${ticker}`;
 
   const response = await fetch(url);
   if (!response.ok) {

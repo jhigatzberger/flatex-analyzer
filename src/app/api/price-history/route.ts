@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cache } from "../../../lib/cache";
-import { env } from "../../../lib/env";
+import { getEnv } from "../../../lib/env";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
   }
 
-  const baseUrl = env.YAHOO_FINANCE_WRAPPER_URL;
+  const baseUrl = getEnv().YAHOO_FINANCE_WRAPPER_URL;
 
   if (!baseUrl) {
     return NextResponse.json(

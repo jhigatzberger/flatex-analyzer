@@ -55,12 +55,12 @@ export function DepotItemCard({ item }: { item: Asset }) {
         <AssetHistoryItem item={item} />
       </Dialog>
       <Card
-        variant={item.details.quantity > 0 ? "elevation" : "outlined"}
         sx={{
           height: "100%",
           cursor: "pointer",
           transition: "0.3s",
-          "&:hover": { boxShadow: 6 },
+          "&:hover": { boxShadow: 6, opacity: 1 },
+          opacity: item.details.quantity <= 0 ? 0.5 : 1,
         }}
         onClick={() => {
           setOpen(item.priceHistory !== null);

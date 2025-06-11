@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cache } from "../../../lib/cache";
+import { env } from "../../../lib/env";
 
 const BASE_CURRENCY = "EUR";
-const API_URL =
-  process.env.FRANKFURTER_API_URL || "https://api.frankfurter.app";
+const API_URL = env.FRANKFURTER_API_URL;
 
 export async function GET(req: NextRequest) {
   console.log("Frankfurter exchange rate API called");

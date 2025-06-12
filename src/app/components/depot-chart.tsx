@@ -18,7 +18,7 @@ function getSectorPieData(items: Asset[]) {
   for (const item of items) {
     if (!item.currentPositionValue) continue;
     const isETF = item.tickerData?.quoteType === "ETF";
-    const sector = isETF ? "ETF" : item.tickerData?.sector ?? "Unknown";
+    const sector = isETF ? "ETF" : item.tickerData?.sector ?? "Missing Sector Data";
     sectorMap[sector] = (sectorMap[sector] ?? 0) + item.currentPositionValue;
   }
 
@@ -37,7 +37,7 @@ function getCountryPieData(items: Asset[]) {
   for (const item of items) {
     if (!item.currentPositionValue) continue;
     const isETF = item.tickerData?.quoteType === "ETF";
-    const country = isETF ? "ETF" : item.tickerData?.country ?? "Unknown";
+    const country = isETF ? "ETF" : item.tickerData?.country ?? "Missing Country Data";
     countryMap[country] =
       (countryMap[country] ?? 0) + item.currentPositionValue;
   }

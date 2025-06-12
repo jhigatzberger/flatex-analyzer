@@ -87,10 +87,9 @@ export function Header() {
       sx={{
         py: 1,
         px: 2,
-        borderBottom: `1px solid ${theme.palette.divider}`,
+        borderBottom: `1px solid ${theme.palette.divider}`,display: "flex", alignItems: "center"
       }}
     >
-      <Container sx={{ display: "flex", alignItems: "center"}}>
         <Link
           href="/"
           style={{
@@ -131,7 +130,6 @@ export function Header() {
             <ColorModeToggle />
           </Box>
         )}
-      </Container>
     </Box>
   );
 }

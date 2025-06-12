@@ -12,26 +12,43 @@ import {
 import Image from "next/image";
 import FAQ from "./faq";
 import { ArrowForward, ArrowRight, ArrowRightAlt } from "@mui/icons-material";
+import InfoBox from "./info-box";
 
 export default function LandingPageContent() {
   const theme = useTheme();
 
   return (
     <Box sx={{ py: { xs: 4, md: 12 } }}>
-      <Container maxWidth="md">
+      <Container maxWidth="lg">
         <Grid container spacing={4} justifyContent="center">
-          <Grid size={{ lg: 6, xs: 12 }}>
+          <Grid size={{ lg: 7, xs: 12 }}>
             <Stack
               spacing={4}
               alignItems={{ lg: "start", xs: "center" }}
               textAlign={{ lg: "left", xs: "center" }}
             >
-              <Typography variant="h3" component="h1" fontWeight="bold">
-                Flatex Analyzer
+              <Typography
+                sx={{
+                  typography: {
+                    lg: { fontSize: 60, fontWeight: "bold", lineHeight: 1 },
+                    xs: { fontSize: 32, fontWeight: "bold", lineHeight: 1 },
+                  },
+                }}
+                component="h1"
+              >
+                Mach dein Flatex Portfolio übersichtlich
               </Typography>
-              <Typography variant={"h6"} color="text.secondary">
-                Analysiere deine Portfolio Performance. <br />
-                Open Source und vollkommen kostenlos.
+              <Typography
+                sx={{
+                  typography: {
+                    lg: { fontSize: 20, fontWeight: 500 },
+                    xs: { fontSize: 16, fontWeight: 500 },
+                  },
+                }}
+                color="text.secondary"
+              >
+                Behalte deine Portfolio Performance, trotz Dividenden und
+                Trades, im Blick. Open Source und vollkommen kostenlos.
               </Typography>
               <Stack direction={"row"} spacing={{ lg: 2, xs: 1 }} mt={2}>
                 <Button
@@ -54,7 +71,7 @@ export default function LandingPageContent() {
               </Stack>
             </Stack>
           </Grid>
-          <Grid size={{ lg: 6, xs: 12 }}>
+          <Grid size={{ lg: 5, xs: 12 }}>
             <Image
               src={`/dashboard-screenshot_${theme.palette.mode}.webp`}
               width={2746}
@@ -67,6 +84,7 @@ export default function LandingPageContent() {
             />
           </Grid>
         </Grid>
+        <InfoBox text="Die Flatex Umsatzhistorie beginnt ab 2020. Solltest du ein älteres Depot haben, kannst du die vollständige Historie vom Support unter info@flatex.at anfragen. Du kannst auch die unvollständige Historie hineinladen, es kann dann aber zu falschen Auswertungen führen." />
         <FAQ />
       </Container>
     </Box>

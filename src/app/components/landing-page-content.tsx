@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import FAQ from "./faq";
-import { ArrowForward, ArrowRight, ArrowRightAlt } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import InfoBox from "./info-box";
 
 export default function LandingPageContent() {

@@ -10,6 +10,7 @@ import RouterIcon from '@mui/icons-material/Router';
 import ShieldIcon from '@mui/icons-material/Shield';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import ForestIcon from '@mui/icons-material/Forest';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 import { Masks, SvgIconComponent } from "@mui/icons-material";
 
 export const sectorIcons: Record<string, SvgIconComponent> = {
@@ -26,4 +27,5 @@ export const sectorIcons: Record<string, SvgIconComponent> = {
   "real-estate": HomeWorkIcon,
   utilities: ElectricalServicesIcon,
   "ETF": BarChartIcon,
+  "EQUITY": ShowChartIcon,
 };

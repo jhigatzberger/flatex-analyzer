@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     );
   }
 
-  const flaskUrl = new URL("/stocks/close_prices_range", baseUrl);
+  const flaskUrl = new URL("stocks/close_prices_range", baseUrl);
   tickers.forEach((ticker) => flaskUrl.searchParams.append("ticker", ticker));
   flaskUrl.searchParams.set("start", start);
   flaskUrl.searchParams.set("end", end);

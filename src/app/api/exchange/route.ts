@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const url = `${API_URL}/${start}..${end}?base=${BASE_CURRENCY}`;
+    const url = `${API_URL}${start}..${end}?base=${BASE_CURRENCY}`;
     const res = await fetch(url);
 
     if (!res.ok) {

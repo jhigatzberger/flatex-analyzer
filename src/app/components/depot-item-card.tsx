@@ -24,8 +24,8 @@ export function LazyContent({
   width?: number | string;
   children: React.ReactNode | null | undefined;
 }) {
-  if (!checkValue) {
-    return <Skeleton variant="text" width={width} />;
+  if (checkValue === null || checkValue === undefined) {
+    return <Skeleton animation={false} variant="text" width={width} />;
   }
   return <> {children} </>;
 }
@@ -37,9 +37,9 @@ export function DepotItemCard({ item }: { item: Asset }) {
   const netProfit =
     currentValue !== null
       ? item.details.dividends.totalValue +
-      item.details.realized.totalValue +
-      currentValue -
-      item.details.investment.totalValue
+        item.details.realized.totalValue +
+        currentValue -
+        item.details.investment.totalValue
       : null;
 
   const sectorIconKey =
@@ -59,7 +59,8 @@ export function DepotItemCard({ item }: { item: Asset }) {
           height: "100%",
           cursor: "pointer",
           transition: "0.3s",
-          "&:hover": { boxShadow: 6 },
+          "&:hover": { boxShadow: 6, opacity: 1 },
+          opacity: item.details.quantity <= 0 ? 0.5 : 1,
         }}
         onClick={() => {
           setOpen(item.priceHistory !== null);
@@ -93,7 +94,12 @@ export function DepotItemCard({ item }: { item: Asset }) {
                   />
                 )}
                 {!SectorIcon && (
-                  <Skeleton variant="circular" width={24} height={24} />
+                  <Skeleton
+                    animation={false}
+                    variant="circular"
+                    width={24}
+                    height={24}
+                  />
                 )}
               </Stack>
               <Stack
@@ -152,7 +158,8 @@ export function DepotItemCard({ item }: { item: Asset }) {
                 >
                   <ValueTypography>
                     {item.details.quantity.toFixed(2)}
-                  </ValueTypography> x
+                  </ValueTypography>{" "}
+                  x
                   <LazyContent width={20} checkValue={item.currentEuroPrice}>
                     {item?.currentEuroPrice?.toFixed(2)} €
                   </LazyContent>
@@ -176,9 +183,7 @@ export function DepotItemCard({ item }: { item: Asset }) {
               <Stack direction="column" alignItems="end">
                 <Typography variant="body2">
                   <LazyContent checkValue={netProfit}>
-                    <ValueTypography>
-                      {netProfit?.toFixed(2)} €
-                    </ValueTypography>
+                    <ValueTypography>{netProfit?.toFixed(2)} €</ValueTypography>
                   </LazyContent>
                 </Typography>
                 <Typography

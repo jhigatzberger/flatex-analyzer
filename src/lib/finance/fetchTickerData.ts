@@ -1,4 +1,4 @@
-import { env } from "../env";
+import { getEnv } from "../env";
 import { FullTickerData } from "./schemas";
 
 export async function fetchTickerData(ticker: string): Promise<FullTickerData> {

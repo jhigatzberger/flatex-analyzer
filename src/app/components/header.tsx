@@ -90,7 +90,7 @@ export function Header() {
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
     >
-      <Container maxWidth={"xl"} sx={{ display: "flex", alignItems: "center"}}>
+      <Container sx={{ display: "flex", alignItems: "center"}}>
         <Link
           href="/"
           style={{

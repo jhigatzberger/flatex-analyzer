@@ -23,10 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={roboto.variable}>
-      <link
-        rel="icon"
-        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%221em%22 font-size=%2280%22>📊</text></svg>"
-      ></link>
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
       <body>
         <div className="min-h-svh flex flex-col justify-between">
           <ClientWrapper>

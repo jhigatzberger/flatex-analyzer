@@ -30,6 +30,13 @@ const fakeDepotData = [
     quantity: 50,
     rate: 14.09,
   },
+  {
+    date: "2024-10-11",
+    isin: "DE000FTG1111",
+    name: "FLATEXDEGIRO AG",
+    quantity: 100,
+    rate: 13.99,
+  },
 ];
 
 function generateTransactionsFromFakeDepotData(): {

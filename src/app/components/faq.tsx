@@ -65,9 +65,7 @@ export default function FAQ() {
             <FAQListItem>
               Wiederhole den Vorgang für <i>"Kontoumsätze"</i>.
             </FAQListItem>
-            <FAQListItem>
-              Lade die CSV-Dateien in das Tool hinein.
-            </FAQListItem>
+            <FAQListItem>Lade die CSV-Dateien in das Tool hinein.</FAQListItem>
           </List>
           <Box sx={{ aspectRatio: "16 / 9", width: "100%", mt: 2 }}>
             <ReactPlayer
@@ -100,10 +98,10 @@ export default function FAQ() {
             <FAQListItem>
               Unternehmensdetails (Branche, Land, Währung) via Yahoo Finance
             </FAQListItem>
+            <FAQListItem>Aktuelle Währungskurse (<a href="https://frankfurter.dev/">frankfurter.dev</a>)</FAQListItem>
             <FAQListItem>
               GitHub API für die Anzahl der Repository-Sterne
             </FAQListItem>
-            <FAQListItem>Aktuelle Währungskurse</FAQListItem>
           </List>
           <Typography>
             Diese Abfragen werden aus Performance-Gründen für kurze Zeit
@@ -173,8 +171,8 @@ export default function FAQ() {
         <AccordionDetails>
           <Typography>
             Bitte öffne ein Issue auf GitHub mit einer möglichst genauen
-            Beschreibung des Problems/Wunsch. Ich schaue mir das gerne an und helfe
-            weiter.
+            Beschreibung des Problems/Wunsch. Ich schaue mir das gerne an und
+            helfe weiter.
           </Typography>
         </AccordionDetails>
       </Accordion>

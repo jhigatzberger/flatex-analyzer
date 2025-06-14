@@ -1,6 +1,6 @@
+import { cache } from "@/lib/cache";
+import { getEnv } from "@/lib/env";
 import { NextRequest, NextResponse } from "next/server";
-import { cache } from "../../../lib/cache";
-import { getEnv } from "../../../lib/env";
 
 const BASE_CURRENCY = "EUR";
 

@@ -1,4 +1,4 @@
-import { fetchPriceHistory } from "@/app/features/portfolio/server/fetchPriceHistory";
+import { fetchPriceHistory } from "@/features/portfolio/server/fetchPriceHistory";
 import { cache } from "@/lib/cache";
 import { NextRequest, NextResponse } from "next/server";
 

@@ -1,7 +1,7 @@
-import { Stats } from "@/app/features/portfolio/components/stats";
-import { DepotProvider } from "@/app/features/portfolio/hooks/use-depot";
-import { ParsedAccountTransaction } from "@/app/features/portfolio/types/account-transaction";
-import { ParsedDepotTransaction } from "@/app/features/portfolio/types/depot-transaction";
+import { Stats } from "@/features/portfolio/components/stats";
+import { DepotProvider } from "@/features/portfolio/hooks/use-depot";
+import { ParsedAccountTransaction } from "@/features/portfolio/types/account-transaction";
+import { ParsedDepotTransaction } from "@/features/portfolio/types/depot-transaction";
 import dayjs from "dayjs";
 
 const fakeDepotData = [

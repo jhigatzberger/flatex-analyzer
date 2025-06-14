@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Typography,
@@ -11,11 +11,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import { DepotItemCard } from "./depot-item-card";
-import { ProgressState } from "../hooks/use-assets-calc";
-import { useDepot } from "../hooks/use-depot";
-import {
-  ParsedAccountTransaction,
-} from "../types/account-transaction";
 import {
   getInitialInvestment,
   getCashPosition,
@@ -24,11 +19,14 @@ import {
   getAccumulatedCashFlows,
   getAccumulatedDepotValue,
   getAccumulatedCashPosition,
-} from "../../lib/analyse";
+} from "../logic/analyze";
 import { DepotChart } from "./depot-chart";
 import { PieChartSwitcher } from "./pie-chart-switcher";
 import { LineChart } from "@mui/x-charts";
 import { useShowValues } from "../hooks/use-show-values";
+import { ProgressState } from "../hooks/use-assets-calc";
+import { useDepot } from "../hooks/use-depot";
+import { ParsedAccountTransaction } from "../types/account-transaction";
 import { Asset } from "../types/asset";
 
 function PortfolioOverview({
@@ -85,22 +83,24 @@ function PortfolioOverview({
   const accumulatedNetworth =
     progress === ProgressState.COMPLETED
       ? accumulatedDepotValue.map((d, index) => ({
-        date: d.date,
-        value: d.value + accumulatedCashPosition[index].value,
-      }))
+          date: d.date,
+          value: d.value + accumulatedCashPosition[index].value,
+        }))
       : [];
 
   return (
     <Box sx={{ p: 2 }} maxWidth="xl" width={"100%"}>
       <Grid container spacing={2}>
         <Grid size={{ xs: 12, sm: 12, md: 8, lg: 6 }}>
-          <Paper sx={{ p: 2, mb: 2, height: 'calc(100% - 16px)' }}>
+          <Paper sx={{ p: 2, mb: 2, height: "calc(100% - 16px)" }}>
             <LineChart
-              yAxis={[{
-                valueFormatter: (value) => showValues ? value : "",
-              }]}
+              yAxis={[
+                {
+                  valueFormatter: (value) => (showValues ? value : ""),
+                },
+              ]}
               sx={{
-                height: "100%"
+                height: "100%",
               }}
               xAxis={[
                 {
@@ -126,7 +126,12 @@ function PortfolioOverview({
             />
           </Paper>
         </Grid>
-        <Grid container spacing={2} sx={{ mb: 2 }} size={{ xs: 12, md: 4, lg: 1.5 }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ mb: 2 }}
+          size={{ xs: 12, md: 4, lg: 1.5 }}
+        >
           {kpis.map((kpi) => (
             <Grid size={{ xs: 6, sm: 6, md: 12 }} key={kpi.label}>
               <Card sx={{ height: "100%" }}>
@@ -211,15 +216,19 @@ function PortfolioOverview({
 export function Stats() {
   const { assets, progress, accountTransactions } = useDepot();
 
-  const sortedItems = [...assets]
-    .sort((a, b) => {
-      const valueA = a.currentPositionValue || 0;
-      const valueB = b.currentPositionValue || 0;
-      return valueB - valueA;
-    });
+  const sortedItems = [...assets].sort((a, b) => {
+    const valueA = a.currentPositionValue || 0;
+    const valueB = b.currentPositionValue || 0;
+    return valueB - valueA;
+  });
 
   return (
-    <Box width={"100%"} display={"flex"} flexDirection="column" alignItems={"center"}>
+    <Box
+      width={"100%"}
+      display={"flex"}
+      flexDirection="column"
+      alignItems={"center"}
+    >
       {progress.state !== ProgressState.COMPLETED && (
         <Box
           sx={{

@@ -1,7 +1,4 @@
 import dayjs from "dayjs";
-import { getEuroPrice } from "../../lib/utils/currency";
-import { Asset } from "../types/asset";
-import { DepotItem } from "../types/depot-item";
 import { useConversionRates } from "./use-conversion-rates";
 import {
   mergeDepotItemDetails,
@@ -9,6 +6,9 @@ import {
 } from "./use-depot-item-details";
 import { usePriceHistory } from "./use-price-history";
 import { useTickerDatas } from "./use-ticker-data";
+import { convertToEuroPrice } from "../utils/euro-price-conversion";
+import { Asset } from "../types/asset";
+import { DepotItem } from "../types/depot-item";
 
 function getProgressState(
   conversionRatesIsLoading: boolean,
@@ -147,7 +147,7 @@ export function useAssetsCalc(depotItems: DepotItem[]) {
     const priceDataAvailable =
       !conversionRatesIsLoading && item?.tickerData !== undefined;
     let currentEuroPrice = priceDataAvailable
-      ? getEuroPrice(
+      ? convertToEuroPrice(
           item?.tickerData?.regularMarketPrice,
           getClosestConversionRates(todayString, conversionRates.rates),
           item.tickerData.currency
@@ -211,12 +211,12 @@ export function useAssetsCalc(depotItems: DepotItem[]) {
             date: priceHistory.dates[index],
             price:
               price === 0 && index > 0
-                ? getEuroPrice(
+                ? convertToEuroPrice(
                     priceHistory.prices[ticker][index - 1],
                     lastFoundConversionRates,
                     asset.tickerData?.currency
                   )
-                : getEuroPrice(
+                : convertToEuroPrice(
                     price,
                     lastFoundConversionRates,
                     asset.tickerData?.currency

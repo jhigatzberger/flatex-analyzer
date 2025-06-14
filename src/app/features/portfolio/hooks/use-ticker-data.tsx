@@ -1,5 +1,5 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
-import { FullTickerData } from "../../lib/finance/schemas";
+import { FullTickerData } from "../types/yahoo-finance-schemas";
 
 async function fetchTickerData(isin: string): Promise<FullTickerData | null> {
   try {

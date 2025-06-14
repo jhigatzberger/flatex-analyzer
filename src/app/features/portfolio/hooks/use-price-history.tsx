@@ -1,15 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import { PriceHistoryResponse, UsePriceHistoryParams } from "../types/price-history";
 
-type PriceHistoryResponse = {
-  dates: string[];
-  prices: Record<string, number[]>;
-};
-
-type UsePriceHistoryParams = {
-  start: string; // YYYY-MM-DD
-  end: string; // YYYY-MM-DD
-  tickers: string[];
-};
 
 export function usePriceHistory({
   start,

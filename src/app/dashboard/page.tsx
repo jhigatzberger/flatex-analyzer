@@ -1,21 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import {
-  handleParseAccountTransactionData,
-  mergeAccountTransactions,
-  ParsedAccountTransaction,
-} from "../types/account-transaction";
+
+import { Box, Chip, Container, Snackbar } from "@mui/material";
+import { Stats } from "@/app/features/portfolio/components/stats";
+import CsvDropzoneUploader from "@/app/features/portfolio/components/csv-upload";
+import { ShowValuesToggle } from "@/app/features/portfolio/components/show-values-toggle";
+import { DepotProvider } from "@/app/features/portfolio/hooks/use-depot";
 import {
   handleParseDepotTransactionData,
+  handleParseAccountTransactionData,
+  mergeAccountTransactions,
   mergeDepotTransactions,
-  ParsedDepotTransaction,
-} from "../types/depot-transaction";
-import { Box, Chip, Container, Snackbar } from "@mui/material";
-import { Stats } from "../components/stats";
-import { DepotProvider } from "../hooks/use-depot";
-import CsvDropzoneUploader from "../components/csv-upload";
-import { ShowValuesToggle } from "../components/show-values-toggle";
+} from "@/app/features/portfolio/logic/transaction-parsing";
+import { ParsedAccountTransaction } from "@/app/features/portfolio/types/account-transaction";
+import { ParsedDepotTransaction } from "@/app/features/portfolio/types/depot-transaction";
 
 export default function App() {
   const [depotTransactions, setDepotTransactions] = useState<

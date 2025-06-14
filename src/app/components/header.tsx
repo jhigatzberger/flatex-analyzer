@@ -18,7 +18,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import Link from "next/link";
 import { RepoButton } from "./repo-button";
-import { ColorModeToggle } from "./color-mode-toggle"; 
+import { ColorModeToggle } from "./color-mode-toggle";
 
 export function Header() {
   const theme = useTheme();
@@ -87,49 +87,51 @@ export function Header() {
       sx={{
         py: 1,
         px: 2,
-        borderBottom: `1px solid ${theme.palette.divider}`,display: "flex", alignItems: "center"
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        display: "flex",
+        alignItems: "center",
       }}
     >
-        <Link
-          href="/"
-          style={{
-            gap: 2,
-            textDecoration: "none",
-            color: theme.palette.text.primary,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <AnalyticsIcon fontSize="large" color="secondary" />
-          <Typography variant="h6" color="text.primary">
-            Flatex Analyzer
-          </Typography>
-        </Link>
-        <Box sx={{ flexGrow: 1 }} />
+      <Link
+        href="/"
+        style={{
+          gap: 2,
+          textDecoration: "none",
+          color: theme.palette.text.primary,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <AnalyticsIcon fontSize="large" color="secondary" />
+        <Typography variant="h6" color="text.primary">
+          Flatex Analyzer
+        </Typography>
+      </Link>
+      <Box sx={{ flexGrow: 1 }} />
 
-        {isMobile ? (
-          <>
-            <IconButton
-              aria-label="open drawer"
-              onClick={toggleDrawer(true)}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Drawer
-              anchor="right"
-              open={drawerOpen}
-              onClose={toggleDrawer(false)}
-            >
-              {drawerContent}
-            </Drawer>
-          </>
-        ) : (
-          <Box sx={{ display: "flex", gap: 2 }}>
-            <RepoButton />
-            <ColorModeToggle />
-          </Box>
-        )}
+      {isMobile ? (
+        <>
+          <IconButton
+            aria-label="open drawer"
+            onClick={toggleDrawer(true)}
+            color="inherit"
+          >
+            <MenuIcon />
+          </IconButton>
+          <Drawer
+            anchor="right"
+            open={drawerOpen}
+            onClose={toggleDrawer(false)}
+          >
+            {drawerContent}
+          </Drawer>
+        </>
+      ) : (
+        <Box sx={{ display: "flex", gap: 2 }}>
+          <RepoButton />
+          <ColorModeToggle />
+        </Box>
+      )}
     </Box>
   );
 }

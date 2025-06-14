@@ -1,5 +1,5 @@
-import { FullTickerData } from "../../lib/finance/schemas";
 import { DepotItemDetails } from "../hooks/use-depot-item-details";
+import { FullTickerData } from "./yahoo-finance-schemas";
 import { DepotItem } from "./depot-item";
 
 export interface Asset extends DepotItem {

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ISINQuerySchema } from "../../../lib/finance/schemas";
-import { searchSymbol } from "../../../lib/finance/searchSymbol";
-import { cache } from "../../../lib/cache";
 import PQueue from "p-queue";
-import { fetchTickerData } from "../../../lib/finance/fetchTickerData";
 import { LRUCache } from "lru-cache";
+import { fetchTickerData } from "@/app/features/portfolio/server/fetchTickerData";
+import { ISINQuerySchema } from "@/app/features/portfolio/types/yahoo-finance-schemas";
+import { searchSymbol } from "@/app/features/portfolio/server/searchSymbol";
+import { cache } from "@/lib/cache";
 
 const isinSymbolCache = new LRUCache<string, string>({
   max: 10000,

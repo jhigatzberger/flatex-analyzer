@@ -2,9 +2,8 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
-import theme from "../../theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ShowValuesProvider } from "../hooks/use-show-values";
+import theme from "@/theme";
 
 const queryClient = new QueryClient();
 export default function ClientWrapper({
@@ -17,9 +16,7 @@ export default function ClientWrapper({
       <AppRouterCacheProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <ShowValuesProvider>
             {children}
-          </ShowValuesProvider>
         </ThemeProvider>
       </AppRouterCacheProvider>
     </QueryClientProvider>

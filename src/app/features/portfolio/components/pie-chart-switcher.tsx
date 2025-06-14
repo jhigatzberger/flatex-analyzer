@@ -26,6 +26,7 @@ type GenericPieChartSwitcherProps = {
 };
 
 export function PieChartSwitcher({ dataSets }: GenericPieChartSwitcherProps) {
+  const { showValues } = useShowValues();
   const [selectedKey, setSelectedKey] = useState(dataSets[0]?.key || "");
 
   const selectedData = dataSets.find((d) => d.key === selectedKey);
@@ -41,7 +42,6 @@ export function PieChartSwitcher({ dataSets }: GenericPieChartSwitcherProps) {
     }
   };
 
-  const { showValues } = useShowValues();
 
   return (
     <Box

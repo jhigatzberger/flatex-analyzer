@@ -1,4 +1,4 @@
-export function getEuroPrice(
+export function convertToEuroPrice(
   price: number,
   currencies: Record<string, number>,
   currency: string

@@ -70,8 +70,7 @@ export default function PriceHistoryChart({
 
   return (
     <LineChart
-      height={350}
-      width={550}
+      sx={{ maxWidth: "100%", maxHeight: "100%", width: 600, height: 400 }}
       xAxis={[{ scaleType: "time", data: dates }]}
       series={[
         {

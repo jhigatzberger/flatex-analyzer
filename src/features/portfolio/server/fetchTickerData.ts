@@ -1,4 +1,4 @@
-import { getEnv } from "../../../../lib/env";
+import { getEnv } from "../../../lib/env";
 import { FullTickerData } from "../types/yahoo-finance-schemas";
 
 export async function fetchTickerData(ticker: string): Promise<FullTickerData> {

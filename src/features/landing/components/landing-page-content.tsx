@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import FAQ from "./faq";
 import { ArrowForward } from "@mui/icons-material";
-import InfoBox from "@/app/components/info-box";
+import InfoBox from "@/components/info-box";
 
 export default function LandingPageContent() {
   const theme = useTheme();

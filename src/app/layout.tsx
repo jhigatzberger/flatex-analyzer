@@ -1,9 +1,9 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
 import { Metadata } from "next";
-import ClientWrapper from "./components/client-wrapper";
-import { Footer } from "./components/footer";
-import { Header } from "./components/header";
+import ClientWrapper from "@/components/client-wrapper";
+import { Footer } from "@/components/footer";
+import { Header } from "@/components/header";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],

@@ -1,4 +1,4 @@
-import { Asset } from "../../../types/asset";
+import { Asset } from "../types/asset";
 import { PieChartSwitcher } from "./pie-chart-switcher";
 
 function getAssetPieData(items: Asset[]) {

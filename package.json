@@ -25,6 +25,7 @@
     "@tanstack/react-query-persist-client": "^5.81.5",
     "apexcharts": "^4.7.0",
     "better-auth": "^1.2.9",
+    "comlink": "^4.4.2",
     "dayjs": "^1.11.13",
     "dotenv": "^16.5.0",
     "drizzle-kit": "^0.31.1",

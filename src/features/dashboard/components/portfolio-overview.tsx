@@ -23,6 +23,7 @@ import { ProgressState } from "../hooks/use-assets-calc";
 import { ParsedAccountTransaction } from "../types/account-transaction";
 import { Asset } from "../types/asset";
 import PerformanceChart from "./performance-chart";
+import { useXirrWorker } from "../hooks/use-xirr-worker";
 
 export function PortfolioOverview({
   accountTransactions,
@@ -43,14 +44,18 @@ export function PortfolioOverview({
   const depotSum = getDepotSum(sortedItems);
   const totalValue = cashPosition + depotSum;
 
-  const xirr = calculateXIRR(accountTransactions, sortedItems);
+  const { xirr, loading: xirrLoading } = useXirrWorker(accountTransactions, sortedItems);
 
   const profit = totalValue - initialInvestment;
 
   const kpis = [
     {
       label: "Annual Performance",
-      value: xirr !== 0 ? `${(xirr * 100).toFixed(2)}%` : "N/A",
+      value: xirrLoading
+        ? "Loading..."
+        : xirr !== null
+          ? `${(xirr * 100).toFixed(2)}%`
+          : "N/A",
     },
     {
       label: "Total Return",

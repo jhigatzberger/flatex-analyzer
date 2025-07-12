@@ -14,13 +14,12 @@ import {
   getAccumulatedCashPosition,
   getCombinedNetWorth,
   DateValue,
-  getAccumulatedCashFlows,
   getAccountCashFlows,
   calculatePortfolioIndex,
 } from "@/features/dashboard/logic/analyze";
 import { usePriceHistory } from "@/features/dashboard/hooks/use-price-history";
 import { ISO_FORMAT } from "@/features/dashboard/utils/date-parse";
-import { getLatestDateValue } from "@/features/dashboard/utils/date-values";
+import { usePerformanceChartWorker } from "@/features/dashboard/hooks/use-performance-chart-worker";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -85,43 +84,14 @@ export default function PerformancePage() {
       ? getCombinedNetWorth(accumulatedCashPosition, accumulatedDepotValue)
       : [];
 
-  const networthSeries = useMemo(() => {
-    const portfolioIndex = calculatePortfolioIndex(
+  const { networthSeries, benchmarkSeries, loading } =
+    usePerformanceChartWorker({
       accumulatedNetWorth,
       accountCashFlows,
-      timeframeToDate(timeframe),
-      new Date()
-    );
-    return toApexSeriesData(
-      portfolioIndex.map((i) => {
-        return {
-          date: i.date,
-          value: i.index - 1,
-        };
-      })
-    );
-  }, [accumulatedNetWorth, accountCashFlows, timeframe]);
-
-  const benchmarkSeries = useMemo(() => {
-    if (!priceData?.dates || !priceData.prices) return [];
-
-    return tickers.map(({ name, ticker }) => {
-      const priceValues: DateValue[] = priceData.dates
-        .map((dateStr, idx) => ({
-          date: new Date(dateStr),
-          value: priceData.prices[ticker]?.[idx] ?? null,
-        }))
-        .filter(
-          (d) => timeframe === "all" || d.date >= timeframeToDate(timeframe)
-        )
-        .filter((d) => d.value !== null) as DateValue[];
-
-      return {
-        name,
-        data: toApexSeriesData(getNormalizedDateValues(priceValues)),
-      };
+      priceData,
+      tickers,
+      timeframe,
     });
-  }, [priceData, isLoading, timeframe]);
 
   const options: ApexOptions = {
     chart: {
@@ -167,6 +137,14 @@ export default function PerformancePage() {
       horizontalAlign: "left",
     },
   };
+
+  if(loading || isLoading) {
+    return (
+      <Box sx={{ width: "100%", height: "100%", p: 8 }}>
+        <div>Loading...</div>
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ width: "100%", height: "100%", p: 8 }}>

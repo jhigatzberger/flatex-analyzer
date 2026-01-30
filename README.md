@@ -1,4 +1,10 @@
-Disclaimer: This is not official or endorsed by FlatexDEGIRO. It is a non-commercial hobby project.
+
+# ⚠️ Maintenance Warning
+**This repository is currently not actively maintained.** As a hobby project that doesn't pay the bills, I cannot guarantee timely updates. Please be aware that features may be broken due to frequent changes in the Yahoo Finance API.
+
+---
+
+> **Disclaimer:** This is not official or endorsed by FlatexDEGIRO. It is a non-commercial hobby project.
 
 # Flatex Dashboard
 

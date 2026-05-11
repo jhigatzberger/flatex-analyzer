@@ -3,9 +3,8 @@
 import React, { useCallback } from "react";
 import Papa from "papaparse";
 import { useDropzone } from "react-dropzone";
-import { Box, Typography, Alert, Snackbar, alpha } from "@mui/material";
+import { Box, Typography, Alert, alpha } from "@mui/material";
 import { Check, FileUpload } from "@mui/icons-material";
-import { blue, grey, orange } from "@mui/material/colors";
 import { useTheme } from "@mui/material/styles";
 
 interface CsvDropzoneUploaderProps {
@@ -15,34 +14,38 @@ interface CsvDropzoneUploaderProps {
 export default function CsvDropzoneUploader({
   onParsed,
 }: CsvDropzoneUploaderProps) {
-  const [fileName, setFileName] = React.useState<string | null>(null);
-  const [error, setError] = React.useState<string | null>(null);
+  const [loadedFiles, setLoadedFiles] = React.useState<string[]>([]);
+  const [errors, setErrors] = React.useState<string[]>([]);
 
   const theme = useTheme();
   const { palette } = theme;
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const file = acceptedFiles[0];
-      if (!file || !file.name.endsWith(".csv")) {
-        setError("Please upload a valid .csv file.");
+      const csvFiles = acceptedFiles.filter((f) => f.name.endsWith(".csv"));
+      if (!csvFiles.length) {
+        setErrors(["Please upload valid .csv files."]);
         return;
       }
 
-      setFileName(file.name);
-      setError(null);
+      setErrors([]);
 
-      Papa.parse(file, {
-        header: true,
-        skipEmptyLines: true,
-        complete: (results) => {
-          if (results.errors.length) {
-            setError("Error parsing CSV.");
-            console.error(results.errors);
-          } else {
-            onParsed(results.data, file.name);
-          }
-        },
+      csvFiles.forEach((file) => {
+        Papa.parse(file, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            if (results.errors.length) {
+              setErrors((prev) => [...prev, `Error parsing ${file.name}.`]);
+              console.error(results.errors);
+            } else {
+              setLoadedFiles((prev) =>
+                prev.includes(file.name) ? prev : [...prev, file.name]
+              );
+              onParsed(results.data, file.name);
+            }
+          },
+        });
       });
     },
     [onParsed]
@@ -51,7 +54,7 @@ export default function CsvDropzoneUploader({
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { "text/csv": [".csv"] },
-    multiple: false,
+    multiple: true,
   });
 
   return (
@@ -83,11 +86,21 @@ export default function CsvDropzoneUploader({
           ? "CSVs ablegen..."
           : "CSVs per Drag & Drop oder Klick laden"}
       </Typography>
-      {error && (
-        <Alert severity="error" sx={{ mt: 2 }}>
-          {error}
-        </Alert>
+      {loadedFiles.length > 0 && (
+        <Box mt={2} textAlign="left" width="100%">
+          {loadedFiles.map((name) => (
+            <Box key={name} display="flex" alignItems="center" gap={1}>
+              <Check fontSize="small" color="success" />
+              <Typography variant="caption" noWrap>{name}</Typography>
+            </Box>
+          ))}
+        </Box>
       )}
+      {errors.map((err, i) => (
+        <Alert key={i} severity="error" sx={{ mt: 1 }}>
+          {err}
+        </Alert>
+      ))}
     </Box>
   );
 }

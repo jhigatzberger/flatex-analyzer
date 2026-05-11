@@ -150,7 +150,6 @@ export const RawDataProvider = ({ children }: { children: ReactNode }) => {
   // --- Mutation for User-Initiated Updates ---
   const updateMutation = useMutation({
     mutationFn: async (newData: RawDataState) => {
-      console.log("Saving new raw data");
       const adapter = adapterMap[config?.dataPersistenceMode];
       if (!adapter?.save) throw new Error("Saving is not supported.");
       await adapter.save(newData);
@@ -164,31 +163,42 @@ export const RawDataProvider = ({ children }: { children: ReactNode }) => {
     },
   });
 
+  // Serialises concurrent uploads so each one reads the latest adapter state.
+  const saveQueue = useRef<Promise<void>>(Promise.resolve());
+
   // --- Event Handlers ---
   const handleRawCsvUpload = (csvData: unknown[], fileName: string) => {
-    console.log("Handling CSV upload:", fileName);
-    /* ... (handler logic remains the same) ... */
     setError(null);
+
+    const isDepot = !!handleParseDepotTransactionData(csvData);
+    const isAccount = !isDepot && !!handleParseAccountTransactionData(csvData);
+
+    if (!isDepot && !isAccount) {
+      setError("Keine gültigen Transaktionsdaten in der CSV gefunden.");
+      return;
+    }
+
     const id = crypto.randomUUID?.() ?? `${Date.now()}`;
     const timestamp = new Date();
-    const currentData = rawData ?? defaultRawData;
+    const entry = { id, data: csvData, fileName, timestamp, valid: true };
 
-    if (handleParseDepotTransactionData(csvData)) {
-      const newDepotData = [
-        ...currentData.depot,
-        { id, data: csvData, fileName, timestamp, valid: true },
-      ];
-      updateMutation.mutate({ ...currentData, depot: newDepotData });
-    } else if (handleParseAccountTransactionData(csvData)) {
-      const newAccountData = [
-        ...currentData.account,
-        { id, data: csvData, fileName, timestamp, valid: true },
-      ];
-      updateMutation.mutate({ ...currentData, account: newAccountData });
-    } else {
-      setError("Keine gültigen Transaktionsdaten in der CSV gefunden.");
-    }
+    saveQueue.current = saveQueue.current
+      .then(async () => {
+        const adapter = adapterMap[config?.dataPersistenceMode];
+        if (!adapter) return;
+        const currentData = (await adapter.load()) ?? defaultRawData;
+        const newData: RawDataState = isDepot
+          ? { ...currentData, depot: [...currentData.depot, entry] }
+          : { ...currentData, account: [...currentData.account, entry] };
+        await adapter.save(newData);
+        queryClient.invalidateQueries({ queryKey });
+      })
+      .catch((err) => {
+        setError(`Failed to save data: ${(err as Error).message}`);
+        console.error("Error saving raw data:", err);
+      });
   };
+
   const deleteDepotDataSet = (id: string) => {
     const currentData = rawData ?? defaultRawData;
     const updated = currentData.depot.filter((ds) => ds.id !== id);

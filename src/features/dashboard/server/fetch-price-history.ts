@@ -10,22 +10,29 @@ export async function fetchPriceHistory(
     throw new Error("Missing parameters");
   }
 
-  const results = await Promise.all(
+  const settled = await Promise.allSettled(
     tickers.map((t) => yahooFinance.historical(t, { period1: start, period2: end }))
   );
 
   const dateSet = new Set<string>();
-  results.forEach((r) =>
-    r.forEach((row) => dateSet.add(row.date.toISOString().split("T")[0]))
-  );
+  const prices: Record<string, (number | null)[]> = {};
+
+  settled.forEach((result, i) => {
+    if (result.status === "rejected") {
+      console.warn(`fetchPriceHistory: skipping ${tickers[i]}:`, result.reason);
+      return;
+    }
+    result.value.forEach((row) => dateSet.add(row.date.toISOString().split("T")[0]));
+  });
+
   const dates = Array.from(dateSet).sort();
 
-  const prices: Record<string, (number | null)[]> = {};
-  tickers.forEach((ticker, i) => {
+  settled.forEach((result, i) => {
+    if (result.status === "rejected") return;
     const map = new Map(
-      results[i].map((r) => [r.date.toISOString().split("T")[0], r.close])
+      result.value.map((r) => [r.date.toISOString().split("T")[0], r.close])
     );
-    prices[ticker] = dates.map((d) => map.get(d) ?? null);
+    prices[tickers[i]] = dates.map((d) => map.get(d) ?? null);
   });
 
   return { dates, prices };

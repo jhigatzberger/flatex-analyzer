@@ -80,12 +80,12 @@ export default function FAQ() {
       <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography fontWeight="medium">
-            Vor 2020 habe ich keine Daten.
+            Vor über 5 Jahren habe ich keine Daten.
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Die Flatex Umsatzhistorie beginnt ab 2020. Solltest du ein älteres
+            Die Flatex Umsatzhistorie reicht nur 5 Jahre zurück. Solltest du ein älteres
             Depot haben, kannst du die vollständige Historie vom Support unter
             info@flatex.at anfragen. Du kannst auch die unvollständige Historie
             hineinladen, es kann dann aber zu falschen Auswertungen führen.

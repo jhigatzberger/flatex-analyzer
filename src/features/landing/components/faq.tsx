@@ -85,10 +85,14 @@ export default function FAQ() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Die Flatex Umsatzhistorie reicht nur 5 Jahre zurück. Solltest du ein älteres
-            Depot haben, kannst du die vollständige Historie vom Support unter
-            info@flatex.at anfragen. Du kannst auch die unvollständige Historie
-            hineinladen, es kann dann aber zu falschen Auswertungen führen.
+            Bei <b>Flatex Classic</b> reicht die Umsatzhistorie nur 5 Jahre zurück.
+            Wechsle zu <b>Flatex Next</b> – dort ist die vollständige Historie
+            verfügbar. Da der Export dort nur in kleineren Zeitabschnitten möglich
+            ist, einfach mehrere CSV-Dateien exportieren und gemeinsam hochladen.
+          </Typography>
+          <Typography sx={{ mt: 1 }}>
+            Du kannst auch eine unvollständige Historie hineinladen, es kann dann aber
+            zu falschen Auswertungen führen.
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -137,10 +141,6 @@ export default function FAQ() {
         </AccordionSummary>
         <AccordionDetails>
           <List>
-            <FAQListItem>
-              Stelle sicher, dass du die CSV aus Flatex <b>Classic</b>{" "}
-              exportierst, nicht aus Flatex Next.
-            </FAQListItem>
             <FAQListItem>Wähle die richtige Zeitspanne aus.</FAQListItem>
             <FAQListItem>
               Bei mehreren Depots oder Konten kann es zu Problemen kommen.

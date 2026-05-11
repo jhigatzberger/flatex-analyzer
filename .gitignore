@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local reference data (never commit)
 SECRET_csv_ref/
+
+# Claude Code local config
+.claude/

@@ -1,6 +1,6 @@
 export interface PriceHistoryResponse {
   dates: string[];
-  prices: Record<string, number[]>;
+  prices: Record<string, (number | null)[]>;
 }
 
 export interface UsePriceHistoryParams {

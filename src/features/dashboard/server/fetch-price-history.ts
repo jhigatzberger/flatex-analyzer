@@ -1,34 +1,32 @@
-import { getEnv } from "@/lib/env";
 import { PriceHistoryResponse } from "../types/price-history";
+import { yahooFinance } from "./yahoo-finance";
 
 export async function fetchPriceHistory(
   tickers: string[],
   start: string,
   end: string
 ): Promise<PriceHistoryResponse> {
-  const baseUrl = getEnv().YAHOO_FINANCE_WRAPPER_URL;
-
-  if (!baseUrl) {
-    throw new Error(
-      "Server misconfiguration: missing YAHOO_FINANCE_WRAPPER_URL"
-    );
-  }
-
   if (!tickers.length || !start || !end) {
     throw new Error("Missing parameters");
   }
 
-  const url = new URL("stocks/close_prices_range", baseUrl);
-  tickers.forEach((ticker) => url.searchParams.append("ticker", ticker));
-  url.searchParams.set("start", start);
-  url.searchParams.set("end", end);
+  const results = await Promise.all(
+    tickers.map((t) => yahooFinance.historical(t, { period1: start, period2: end }))
+  );
 
-  const res = await fetch(url.toString(), { method: "GET" });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(
-      `Failed to fetch price history: ${data.error || "Unknown error"}`
+  const dateSet = new Set<string>();
+  results.forEach((r) =>
+    r.forEach((row) => dateSet.add(row.date.toISOString().split("T")[0]))
+  );
+  const dates = Array.from(dateSet).sort();
+
+  const prices: Record<string, (number | null)[]> = {};
+  tickers.forEach((ticker, i) => {
+    const map = new Map(
+      results[i].map((r) => [r.date.toISOString().split("T")[0], r.close])
     );
-  }
-  return data;
+    prices[ticker] = dates.map((d) => map.get(d) ?? null);
+  });
+
+  return { dates, prices };
 }

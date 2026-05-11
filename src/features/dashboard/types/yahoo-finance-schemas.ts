@@ -208,6 +208,6 @@ export const FullTickerDataSchema = z.object({
   volume: z.number(),
   website: z.string(),
   zip: z.string()
-});
+}).partial();
 
 export type FullTickerData = z.infer<typeof FullTickerDataSchema>;

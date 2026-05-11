@@ -41,7 +41,7 @@
     "react-dom": "19.2.1",
     "react-dropzone": "^14.3.8",
     "react-player": "^2.16.0",
-    "yahoo-finance2": "^2.13.3",
+    "yahoo-finance2": "^3.14.0",
     "zod": "^3.25.46"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
-import yahooFinance from "yahoo-finance2";
 import { QuoteSearchSchema } from "../types/yahoo-finance-schemas";
 import { hardCodedIsinRemap } from "../utils/remove-known-symbol-wrappers";
+import { yahooFinance } from "./yahoo-finance";
 
 export async function searchSymbol(isin: string) {
   isin = hardCodedIsinRemap(isin);

@@ -11,7 +11,6 @@ services:
     env_file:
       - .env
     depends_on:
-      - yf-wrapper
       - migrate
       - pg-data
   pg-data:

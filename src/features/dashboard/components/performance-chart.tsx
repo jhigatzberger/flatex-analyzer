@@ -59,9 +59,12 @@ export default function PerformanceChart() {
   const firstTransactionDate = accountTransactions[0]?.Buchtag;
 
   const { data: priceData, isLoading } = usePriceHistory({
-    start: dayjs(firstTransactionDate).format(ISO_FORMAT),
+    start: firstTransactionDate
+      ? dayjs(firstTransactionDate).format(ISO_FORMAT)
+      : dayjs().format(ISO_FORMAT),
     end: dayjs().format(ISO_FORMAT),
-    tickers: tickers.map((t) => t.ticker),
+    // Skip external benchmark fetch until we have actual user data to compare against
+    tickers: firstTransactionDate ? tickers.map((t) => t.ticker) : [],
   });
   const accountCashFlows = getAccountCashFlows(accountTransactions, 1);
   const [timeframe, setTimeframe] = useState<1 | 3 | 5 | "all">(1);
@@ -74,7 +77,7 @@ export default function PerformanceChart() {
   };
 
   const accumulatedDepotValue =
-    progress.state === ProgressState.COMPLETED
+    progress.state === ProgressState.COMPLETED && firstTransactionDate
       ? getAccumulatedDepotValue(assets, firstTransactionDate, new Date())
       : [];
 

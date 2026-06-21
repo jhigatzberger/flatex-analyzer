@@ -2,9 +2,18 @@ import { FullTickerData } from "../types/yahoo-finance-schemas";
 import { yahooFinance } from "./yahoo-finance";
 
 export async function fetchTickerData(ticker: string): Promise<FullTickerData> {
-  const result = await yahooFinance.quoteSummary(ticker, {
-    modules: ["price", "summaryDetail", "assetProfile", "financialData", "defaultKeyStatistics"],
-  });
+  let result: any;
+  try {
+    result = await yahooFinance.quoteSummary(ticker, {
+      modules: ["price", "summaryDetail", "assetProfile", "financialData", "defaultKeyStatistics"],
+    });
+  } catch (e: any) {
+    if (e?.result) {
+      result = e.result;
+    } else {
+      throw e;
+    }
+  }
   return {
     ...result.defaultKeyStatistics,
     ...result.summaryDetail,

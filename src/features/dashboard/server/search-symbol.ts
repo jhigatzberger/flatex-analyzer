@@ -4,15 +4,21 @@ import { yahooFinance } from "./yahoo-finance";
 
 export async function searchSymbol(isin: string) {
   isin = hardCodedIsinRemap(isin);
-  const searchResult = await yahooFinance.search(isin, {
-    region: "US",
-  });
-  console.log("Search result for ISIN:", isin, searchResult);
-  const match = searchResult.quotes?.[0];
 
+  let searchResult: any;
+  try {
+    searchResult = await yahooFinance.search(isin, { region: "US" });
+  } catch (e: any) {
+    if (e?.result) {
+      searchResult = e.result;
+    } else {
+      throw e;
+    }
+  }
+
+  const match = searchResult.quotes?.[0];
   const parsed = QuoteSearchSchema.safeParse(match);
   if (!parsed.success) {
-    console.error("Failed to parse search result", parsed.error);
     throw new Error("No valid quote found for ISIN");
   }
 

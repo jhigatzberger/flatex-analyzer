@@ -21,7 +21,7 @@ export default function AssetPage() {
     <Box sx={{ p: 2, width: "100%" }}>
       <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
         <PreserveSearchParamsLink href="/assets" passHref>
-          <Typography color="inherit" component="a" sx={{ textDecoration: "none" }}>
+          <Typography color="inherit" sx={{ textDecoration: "none" }}>
             Assets
           </Typography>
         </PreserveSearchParamsLink>

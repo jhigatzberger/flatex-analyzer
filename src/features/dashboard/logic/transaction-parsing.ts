@@ -10,7 +10,8 @@ import { anonymizeAccountTransactions, anonymizeDepotTransactions } from "./anon
 
 // Handles both "1.234,56" (German with thousands sep) and "1234,56"
 function parseGermanFloat(value: string): number {
-  return parseFloat(value.replace(/\./g, "").replace(",", "."));
+  const result = parseFloat(value.trim().replace(/\./g, "").replace(",", "."));
+  return isNaN(result) ? 0 : result;
 }
 
 function normalizeDepotRow(row: Record<string, string>): Record<string, string> {
@@ -49,10 +50,13 @@ function normalizeAccountRow(row: Record<string, string>): Record<string, string
 
 function parseAccountTransactionDataItem(
   data: AccountTransaction
-): ParsedAccountTransaction {
+): ParsedAccountTransaction | null {
+  const buchtag = parseDate(data.Buchtag);
+  const valuta = parseDate(data.Valuta);
+  if (!buchtag || !valuta) return null;
   return {
-    Buchtag: parseDate(data.Buchtag),
-    Valuta: parseDate(data.Valuta),
+    Buchtag: buchtag,
+    Valuta: valuta,
     "BIC / BLZ": data["BIC / BLZ"],
     "IBAN / Kontonummer": data["IBAN / Kontonummer"],
     Buchungsinformationen: data.Buchungsinformationen,
@@ -70,14 +74,13 @@ export function handleParseAccountTransactionData(
   const AccountTransactionArraySchema = z.array(AccountTransactionSchema);
   const normalized = data.map((row) => normalizeAccountRow(row as Record<string, string>));
   const result = AccountTransactionArraySchema.safeParse(normalized);
-  if (result.success) {
-    const tx = anonymizeAccountTransactions(result.data);
-    const parsedTx = tx.map(parseAccountTransactionDataItem);
-    parsedTx.sort((a, b) => a.Buchtag.getTime() - b.Buchtag.getTime());
-    return parsedTx;
-  } else {
+  if (!result.success) {
     return null;
   }
+  const tx = anonymizeAccountTransactions(result.data);
+  const parsedTx = tx.map(parseAccountTransactionDataItem).filter((t): t is ParsedAccountTransaction => t !== null);
+  parsedTx.sort((a, b) => a.Buchtag.getTime() - b.Buchtag.getTime());
+  return parsedTx;
 }
 
 export function mergeAccountTransactions(
@@ -98,11 +101,14 @@ export function mergeAccountTransactions(
 
 function parseDepotTransactionDataItem(
   data: DepotTransaction
-): ParsedDepotTransaction {
+): ParsedDepotTransaction | null {
+  const buchtag = parseDate(data.Buchtag);
+  const valuta = parseDate(data.Valuta);
+  if (!buchtag || !valuta) return null;
   return {
     Nummer: data.Nummer,
-    Buchtag: parseDate(data.Buchtag),
-    Valuta: parseDate(data.Valuta),
+    Buchtag: buchtag,
+    Valuta: valuta,
     ISIN: data.ISIN,
     Bezeichnung: data.Bezeichnung,
     Nominal: parseGermanFloat(data.Nominal),
@@ -121,14 +127,13 @@ export function handleParseDepotTransactionData(
   const DepotTransactionArraySchema = z.array(DepotTransactionSchema);
   const normalized = data.map((row) => normalizeDepotRow(row as Record<string, string>));
   const result = DepotTransactionArraySchema.safeParse(normalized);
-  if (result.success) {
-    const tx: DepotTransaction[] = anonymizeDepotTransactions(result.data);
-    const parsedTx = tx.map(parseDepotTransactionDataItem);
-    parsedTx.sort((a, b) => a.Buchtag.getTime() - b.Buchtag.getTime());
-    return parsedTx;
-  } else {
+  if (!result.success) {
     return null;
   }
+  const tx: DepotTransaction[] = anonymizeDepotTransactions(result.data);
+  const parsedTx = tx.map(parseDepotTransactionDataItem).filter((t): t is ParsedDepotTransaction => t !== null);
+  parsedTx.sort((a, b) => a.Buchtag.getTime() - b.Buchtag.getTime());
+  return parsedTx;
 }
 
 export function mergeDepotTransactions(

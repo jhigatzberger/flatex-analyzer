@@ -1,46 +1,63 @@
+# Production stack, deployed by Dokploy (org Higatzberger, server hostinger-1) from this
+# file on every push to master. Set in Dokploy → Environment:
+#   POSTGRES_PASSWORD, BETTER_AUTH_SECRET
 services:
-  dashboard:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: dashboard
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    restart: unless-stopped
-    depends_on:
-      migrate:
-        condition: service_completed_successfully
-  pg-data:
-    image: postgres:15
-    container_name: pg-data
+  postgres:
+    image: postgres:17
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
-    ports:
-      - "5432:5432"
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: stonk
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d stonk"]
       interval: 5s
-      timeout: 5s
-      retries: 10
+      timeout: 3s
+      retries: 20
+
+  # one-shot: drizzle-kit push, then exits; app waits for it
   migrate:
     build:
       context: .
       dockerfile: Dockerfile.migrate
-    container_name: migrate
-    working_dir: /app
+    restart: "no"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/stonk?sslmode=disable
     depends_on:
-      pg-data:
+      postgres:
         condition: service_healthy
-    env_file:
-      - .env
 
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres:5432/stonk?sslmode=disable
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: https://flatex-analyzer.jhiga.com/
+      FRANKFURTER_API_URL: https://api.frankfurter.app/
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - default
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+      - traefik.http.routers.flatex.rule=Host(`flatex-analyzer.jhiga.com`)
+      - traefik.http.routers.flatex.entrypoints=websecure
+      - traefik.http.routers.flatex.tls.certresolver=letsencrypt
+      - traefik.http.services.flatex.loadbalancer.server.port=3000
+      - traefik.http.routers.flatex-web.rule=Host(`flatex-analyzer.jhiga.com`)
+      - traefik.http.routers.flatex-web.entrypoints=web
+      - traefik.http.routers.flatex-web.middlewares=redirect-to-https@file
 
 volumes:
   pgdata:
+
+networks:
+  dokploy-network:
+    external: true
